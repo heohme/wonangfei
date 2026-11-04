@@ -1,0 +1,11 @@
+const assert=require('assert');require('../dist/calc.js');const C=globalThis.WNF;
+const s={salary:30000,workdays:22,start:'09:00',end:'18:00',lunchStart:'12:00',lunchEnd:'13:00',paidLunch:false,days:[1,2,3,4,5],percent:100,initial:0,since:'2026-11-01',mode:'all'};
+assert.equal(C.snapshot(new Date(2026,10,4,0),s).today,0);
+assert.equal(C.snapshot(new Date(2026,10,4,12),s).today,500);
+assert.equal(C.snapshot(new Date(2026,10,7,12),s).today,500);
+assert.equal(C.snapshot(new Date(2026,10,4,12),s).total,3500);
+assert(Math.abs(C.snapshot(new Date(2026,11,1,0),s).total-30000)<0.00001);
+assert.equal(C.snapshot(new Date(2026,10,4,8),Object.assign({},s,{mode:'work'})).today,0);
+const work=Object.assign({},s,{mode:'work'}),now=new Date(2026,10,4,12),cp={amount:C.snapshot(now,s).total,raw:C.snapshot(now,work).total};assert.equal(C.balance(now,work,cp).total,3500);
+assert.equal(C.snapshot(new Date(2026,10,4,12),Object.assign({},work,{calendarWorkdays:true})).daily,30000/30);
+console.log('8 mode / calendar / continuity checks passed');

@@ -1,0 +1,13 @@
+const assert=require('assert');require('../dist/calc.js');const C=globalThis.WNF;const s={salary:12000,workdays:22,start:'09:00',end:'18:00',lunchStart:'12:00',lunchEnd:'13:00',paidLunch:false,days:[1,2,3,4,5],percent:50,initial:100,since:'2026-11-02'};
+const at=(d,h,m)=>new Date(2026,10,d,h,m,0);
+assert.equal(C.snapshot(at(2,8,0),s).today,0);
+assert.equal(C.snapshot(at(2,12,0),s).today,150);
+assert.equal(C.snapshot(at(2,12,30),s).today,150);
+assert.equal(C.snapshot(at(2,13,0),s).today,150);
+assert.equal(C.snapshot(at(2,18,0),s).today,400);
+assert.equal(C.snapshot(at(7,15,0),s).today,0);
+assert.equal(C.snapshot(at(4,18,0),s).total,700);
+assert.equal(C.snapshot(at(1,18,0),s).total,100);
+assert.deepEqual(C.allocate([{price:100},{price:200}],150),[{amount:100,ready:true},{amount:50,ready:false}]);
+assert.equal(C.snapshot(at(2,18,0),Object.assign({},s,{paidLunch:true})).today,400);
+console.log('10 calculation checks passed');

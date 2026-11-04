@@ -1,0 +1,12 @@
+const assert=require('assert');require('../dist/calc.js');const C=globalThis.WNF;
+const s={salary:12000,workdays:22,start:'09:00',end:'18:00',lunchStart:'12:00',lunchEnd:'13:00',paidLunch:false,days:[1,2,3,4,5],percent:100,initial:100,since:'2026-11-02'};
+const now=new Date(2026,10,4,10),changed=Object.assign({},s,{salary:24000});
+const before=C.snapshot(now,s).total,cp={amount:before,raw:C.snapshot(now,changed).total};
+assert.equal(C.balance(now,changed,cp).total,before);
+assert.equal(C.balance(new Date(2026,10,4,11),changed,cp).total,before+100);
+const rest=Object.assign({},s,{overrides:{'2026-11-04':'rest'}});assert.equal(C.snapshot(now,rest).today,0);assert.equal(C.snapshot(new Date(2026,10,5,10),rest).today,50);
+const extra=Object.assign({},s,{overrides:{'2026-11-07':'work'}});assert.equal(C.snapshot(new Date(2026,10,7,18),extra).today,400);
+assert.deepEqual(C.allocate([{price:200},{price:100,bought:true}],250),[{amount:150,ready:false},{amount:100,ready:true}]);
+assert.deepEqual(C.allocate([{price:100,bought:true},{price:200}],250),[{amount:100,ready:true},{amount:150,ready:false}]);
+assert.equal(C.balance(new Date(2026,10,5,0),changed,cp).total,C.balance(new Date(2026,10,4,18),changed,cp).total);
+console.log('8 historical balance / override / purchase checks passed');
