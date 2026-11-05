@@ -1,6 +1,7 @@
 """Build the browser H5 variant without modifying the submitted mini-tool bundle."""
 from pathlib import Path
 import shutil
+import json
 root = Path(__file__).resolve().parents[1]
 out = root / 'h5'
 out.mkdir(exist_ok=True)
@@ -15,7 +16,13 @@ source = source.replace("收入为估算 · 数据仅保存在本机", "收入�
 source = source.replace("if(state.reminderMode!=='text'&&api&&typeof api.vibrateShort==='function')api.vibrateShort({type:'light'}).catch(function(){});", "if(state.reminderMode!=='text'){if(api&&typeof api.vibrateShort==='function')api.vibrateShort({type:'light'}).catch(function(){});else if(typeof navigator.vibrate==='function')navigator.vibrate(35);}")
 (out / 'app.js').write_text(source)
 index = (out / 'index.html').read_text().replace('<title>窝囊费</title>', '<title>窝囊费 · 每一秒，都算数</title><meta name="description" content="按时间看见收入，用小目标点亮生活。支持金额与脱敏模式，工资数据仅保存在当前浏览器。"><meta name="theme-color" content="#f5f3ec"><link rel="icon" href="./icon.png">')
+index = index.replace('<button id="offer-source">查看好价来源 ↗</button>', '<a id="offer-source" target="_blank" rel="noopener noreferrer">查看什么值得买 ↗</a>')
+source = source.replace("function sourceMarkup(url){return '<p>小工具内不能跳转站外，来源地址供核对：</p><textarea class=\"source-url\" readonly aria-label=\"什么值得买来源地址\">'+esc(url)+'</textarea>';}", "function sourceMarkup(url){return '<a class=\"deal-source-link\" href=\"'+esc(url)+'\" target=\"_blank\" rel=\"noopener noreferrer\">在什么值得买查看这条好价 ↗</a>';}")
+(out / 'app.js').write_text(source)
 index = index.replace('<script src="./app.js">', '<script src="./web.js"></script><script src="./app.js">')
+version = json.loads((root / 'package.json').read_text())['version']
+for asset in ['calc.js', 'web.js', 'app.js', 'style.css']:
+    index = index.replace('./' + asset + '"', './' + asset + '?v=' + version + '"')
 (out / 'index.html').write_text(index)
 shutil.copyfile(root / 'assets' / 'icon.png', out / 'icon.png')
 with (out / 'style.css').open('a') as f:

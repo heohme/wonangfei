@@ -1,6 +1,6 @@
 (function(){'use strict';
 function message(text){var el=document.getElementById('toast');el.textContent=text;el.style.display='block';setTimeout(function(){el.style.display='none';},4500);}
-window.WNFWeb={saveImage:async function(dataUrl){
+window.WNFWeb={setDealLink:function(el,url){if(/^https:\/\/www\.smzdm\.com\/p\/\d+\/$/.test(url))el.href=url;},saveImage:async function(dataUrl){
  try{
   var raw=atob(dataUrl.split(',')[1]),bytes=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
   var blob=new Blob([bytes],{type:'image/png'}),filename='wonangfei-'+new Date().toISOString().slice(0,10)+'.png';
