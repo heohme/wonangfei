@@ -1,0 +1,12 @@
+const assert=require('assert');require('../dist/calc.js');const C=globalThis.WNF;
+const s={salary:3000,mode:'all',dailyBasis:'calendar',start:'09:00',end:'18:00',lunchStart:'12:00',lunchEnd:'13:00',paidLunch:false,days:[1,2,3,4,5],initial:888,percent:20,since:'2026-11-05'};
+let v=C.monthSummary(new Date(2026,10,5,12),s);assert.equal(v.earned,450);assert.equal(v.target,3000);assert.equal(v.progress,.15);
+assert.equal(C.monthSummary(new Date(2026,11,1),s).earned,0);
+assert.equal(C.monthSummary(new Date(2024,1,15,12),Object.assign({},s,{salary:2900})).earned,1450);
+assert.equal(C.monthSummary(new Date(2026,10,5,12),Object.assign({},s,{initial:0,percent:100,since:'2020-01-01'})).earned,450);
+const work=Object.assign({},s,{mode:'work'});v=C.monthSummary(new Date(2026,10,5,13),work);assert.equal(v.earned,337.5);assert.equal(v.target,2100);
+assert.equal(C.monthSummary(new Date(2026,10,30,19),work).earned,v.target);
+assert.equal(C.monthSummary(new Date(2026,10,7,12),work).earned,C.monthSummary(new Date(2026,10,6,19),work).earned);
+const override=Object.assign({},work,{overrides:{'2026-11-01':'work'}});assert.equal(C.monthSummary(new Date(2026,10,30,19),override).target,2200);
+const before=C.balance(new Date(2026,10,5,12),s,{amount:10,raw:0}).total;C.monthSummary(new Date(2026,10,5,12),s);assert.equal(C.balance(new Date(2026,10,5,12),s,{amount:10,raw:0}).total,before);
+console.log('12 monthly / leap year / workday / rollover / fund separation checks passed');

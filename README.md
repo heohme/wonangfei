@@ -66,3 +66,8 @@ npx wrangler pages deploy h5 --project-name wonangfei --branch main
 ```
 
 Create the project only once; subsequent deployments reuse it. Local H5 preview: `python3 -m http.server 50880 --bind 127.0.0.1 --directory h5`.
+
+
+## 首批好物版本 1.1.0
+
+内置30件小目标、15件月薪级大目标，完整清单见 [首批好物清单](docs/first-batch-catalog.md)。金额页支持今天/本月切换，本月按当前设置从1日回算；愿望基金独立累计。脱敏页百分比与参考价同一行，H5点击价格打开什么值得买，小红书端展示来源地址。已去掉优惠条件入口。商品价格是单件参考价，不计凑单、返卡、积分等收益，不承诺实时库存或历史最低价。

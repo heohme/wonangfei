@@ -1,26 +1,23 @@
 const assert=require('assert');require('../dist/calc.js');const C=globalThis.WNF;
-let a=C.anchor([],694,10000);assert.equal(a.name,'AirPods Pro');assert.equal(a.progress,.5);
-a=C.anchor([],14999,30000);assert.equal(a.kind,'phone');assert.equal(a.progress,1);
-a=C.anchor([{name:'我的相机',price:2000}],1000,30000);assert.equal(a.name,'我的相机');assert.equal(a.kind,'gift');assert.equal(a.progress,.5);
-a=C.anchor([{name:'已买到',price:100,bought:true}],794,10000);assert.equal(a.progress,.5);
-assert.equal(C.anchor([],100000,30000).progress,1);assert.equal(C.anchor([],-100,10000).progress,0);
-console.log('10 privacy anchor checks passed');
-
-// Increasing earnings must increase the exact progress, including subpixel changes.
-assert(C.anchor([],694.01,10000).progress>C.anchor([],694,10000).progress);
-assert.equal(C.anchor([],10,10000,'coffee').progress,.5);
-assert.equal(C.anchor([],14999,10000,'phone').progress,1);
-const wishes=[{id:'a',name:'目标一',price:100},{id:'b',name:'目标二',price:200}];
+const item=C.catalog.find(x=>x.id==='zdm:185329412');
+assert.equal(C.anchor([],item.price/2,10000,item.id).progress,.5);
+assert(C.anchor([],item.price/2+.01,10000,item.id).progress>.5);
+assert.equal(C.anchor([],-1,10000,item.id).progress,0);
+assert.equal(C.anchor([],100000,10000,item.id).progress,1);
+const wishes=[{id:'a',name:'自己的相机',price:100},{id:'b',name:'小旅行',price:200}];
 assert.equal(C.anchor(wishes,150,10000,'wish:b').progress,.25);
 assert.equal(C.anchor(wishes,150,10000,'missing').id,'wish:a');
-assert.equal(C.anchorOptions(wishes).length,C.catalog.length+5);
-assert.equal(C.anchorOptions([{id:'x',bought:true}]).length,C.catalog.length+3);
-assert.equal(C.anchor(wishes,10,10000,'coffee').id,'coffee');
-console.log('8 progress growth / product switching checks passed');
-
-assert.equal(C.catalog.length,16);assert.equal(new Set(C.catalog.map(x=>x.id)).size,16);
-for(const item of C.catalog){assert(item.price>0);assert.equal(C.anchor([],item.price/2,10000,item.id).progress,.5);assert.equal(C.anchor([],item.price/2,10000,item.id).reference.url,item.url);assert(item.terms);assert(/^https:\/\/www\.smzdm\.com\/p\/\d+\/$/.test(item.url));}
-assert(!C.catalog.some(x=>/纸巾|抽纸|洗衣液|洗洁精|生抽|会员/.test(x.name)));
-assert.equal(C.catalog.filter(x=>x.category==='小小奖励').length,5);
-assert.equal(C.anchor([{id:'x',name:'自己的愿望',price:100}],50,10000).reference,null);
-console.log('87 curated catalog / source / progress / privacy checks passed');
+assert.equal(C.anchor(wishes,150,10000,'wish:a').reference,null);
+assert.equal(C.anchorOptions(wishes).length,C.catalog.length+2);
+assert.equal(C.anchorOptions([{id:'x',bought:true}]).length,C.catalog.length);
+assert.equal(C.catalog.filter(x=>x.tier==='daily').length,30);
+assert.equal(C.catalog.filter(x=>x.tier==='monthly').length,15);
+assert.equal(new Set(C.catalog.map(x=>x.id)).size,C.catalog.length);
+for(const product of C.catalog){assert(product.price>0);assert.equal(C.anchor([],product.price/2,10000,product.id).progress,.5);assert.equal(C.anchor([],product.price/2,10000,product.id).reference.url,product.url);assert(/^https:\/\/www\.smzdm\.com\/p\/\d+\/$/.test(product.url));}
+assert(C.anchor([],0,10000,null,'monthly').reference.tier==='monthly');
+assert(C.anchor([],0,10000,null,'daily',333).reference.tier==='daily');
+assert.equal(C.anchor(wishes,20,10000,null,'monthly').id,'wish:a');
+assert.equal(C.anchor([],20,10000,'zdm:removed').progress,C.anchor([],20,10000).progress);
+assert.equal(C.anchor([],300,10000,item.id,'daily').progress,C.anchor([],300,10000,item.id,'monthly').progress);
+assert.equal(C.catalog.length,45);
+console.log('198 catalog / selection / progress checks passed');
