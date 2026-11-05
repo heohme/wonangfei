@@ -7,3 +7,7 @@ preview-session.json
 .env
 .env.*
 *.log
+
+.wrangler/
+.dev.vars
+.dev.vars.*

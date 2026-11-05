@@ -5,7 +5,10 @@
   "description": "窝囊费：离线工资进度与愿望清单小工具",
   "scripts": {
     "test": "node tests/run.cjs",
-    "build": "python3 scripts/build.py"
+    "build": "python3 scripts/build.py",
+    "build:h5": "python3 scripts/build_h5.py"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  }
 }

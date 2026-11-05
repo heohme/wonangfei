@@ -51,3 +51,18 @@ redapp dev --dir ./dist --no-open --agent
 入口：<https://creator.xiaohongshu.com/new/red-app>
 
 上传、生成手机预览、确认通过后再送审。仓库不保存账号凭证、预览二维码、远端文件回执或本地会话记录。Android/iOS 真机兼容性与性能仍需验证。
+
+
+## H5 / Cloudflare Pages
+
+`npm run build:h5` generates the independent browser version in `h5/`; the submitted mini-tool `dist/` stays unchanged. `h5/web.js` adapts image sharing/downloading and browser vibration. H5 uses a separate browser storage key, no account, no server and no salary uploads.
+
+The Pages project name is `wonangfei`, with requested production URL `https://wonangfei.pages.dev` (subject to Cloudflare availability). After Wrangler login:
+
+```sh
+npm run build:h5
+npx wrangler pages project create wonangfei --production-branch main
+npx wrangler pages deploy h5 --project-name wonangfei --branch main
+```
+
+Create the project only once; subsequent deployments reuse it. Local H5 preview: `python3 -m http.server 50880 --bind 127.0.0.1 --directory h5`.
