@@ -21,6 +21,8 @@ main{display:flex;flex-direction:column;padding-left:26px;padding-right:26px;pad
 /* v0.9.1 — keep our header below the native mini-tool navigation */
 main{padding-top:10vh;padding-top:calc(10vh + var(--safe-area-inset-top, 0px))}.minimal-header{margin-bottom:27px;min-height:62px}.minimal-header .brand{font-size:25px;font-weight:650;letter-spacing:4px;color:#5b7350;line-height:1.3;text-shadow:0 1px 0 #fffdf3;position:relative;padding:6px 0 10px 4px}.minimal-header .brand:after{content:'';position:absolute;left:50%;bottom:0;width:23px;height:2px;background:#b3c29d;border-radius:3px;transform:translateX(-50%)}@media(max-height:740px){main{padding-top:10vh;padding-top:calc(10vh + var(--safe-area-inset-top, 0px))}.minimal-header{margin-bottom:20px}}@media(max-width:350px){.minimal-header .brand{font-size:22px;letter-spacing:3px}}
 
+.anchor-switch{display:flex;align-items:center;justify-content:center}.anchor-switch button{background:transparent;color:#829570;width:44px;height:44px;font-size:28px;padding:0;margin:0 10px}.anchor-switch h2{max-width:220px;overflow-wrap:break-word}.unlock-track{width:200px;height:6px;margin-top:18px}.anchor-percent{font-size:13px;font-variant-numeric:tabular-nums;color:#748867;margin:10px 0 0}.product-color{width:0}.unlock-note{margin-top:8px}
+
 /* H5: no native mini-tool navigation bar to avoid. */
 main{padding-top:28px;padding-top:calc(28px + env(safe-area-inset-top, 0px));padding-bottom:calc(18px + env(safe-area-inset-bottom, 0px))}
 .overlay{padding-top:calc(20px + env(safe-area-inset-top, 0px));padding-bottom:calc(20px + env(safe-area-inset-bottom, 0px))}
