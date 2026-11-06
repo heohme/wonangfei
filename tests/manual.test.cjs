@@ -1,0 +1,14 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const nodes={};const get=id=>nodes[id]||(nodes[id]={addEventListener(){}});
+const context={window:{},document:{getElementById:get,addEventListener(){}},Date,console,Promise,setTimeout,clearTimeout,setInterval,clearInterval};
+vm.createContext(context);vm.runInContext(fs.readFileSync('wonangfei/dist/calc.js','utf8'),context);
+let source=fs.readFileSync('wonangfei/dist/app.js','utf8').replace('load();\n})();','window.test={state:state,session:session,elapsedMs:elapsedMs,snapshot:manualSnapshot};\n})();');vm.runInContext(source,context);
+const t=context.window.test,s=t.state.settings;s.salary=8800;s.workdays=22;s.percent=100;
+const q=t.session(),now=new Date();q.day=context.window.WNF.key(now);q.startedAt=now.getTime();
+assert.equal(t.elapsedMs(new Date(now.getTime()+3600000)),3600000);
+assert.equal(t.snapshot(new Date(now.getTime()+60000),s).total,50/60);
+q.elapsedMs=60000;q.startedAt=null;
+assert.equal(t.elapsedMs(new Date(now.getTime()+3600000)),60000);
+q.startedAt=now.getTime()+3600000;
+assert.equal(t.elapsedMs(new Date(now.getTime()+3660000)),120000);
+console.log('4 manual start / pause / resume checks passed');

@@ -33,6 +33,40 @@ main{padding-top:10vh;padding-top:calc(10vh + var(--safe-area-inset-top, 0px))}.
 
 .catalog-tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}.catalog-tabs button{flex:0 0 auto;white-space:nowrap}.catalog-items button{display:flex;align-items:center;justify-content:space-between}.catalog-items button span{flex:1;padding-right:12px}.catalog-items button small{flex:0 0 auto;margin-top:0;font-variant-numeric:tabular-nums}.catalog-tabs button[aria-pressed="true"]{box-shadow:0 2px 6px #52694912}
 
+/* A single, plain-language welcome before the first setup. */
+.welcome-content{text-align:center;padding:10px 0 0}
+.welcome-art{display:flex;align-items:center;justify-content:center;margin:14px 0 26px}
+.welcome-art>span{display:flex;flex-direction:column;align-items:center;justify-content:center;width:96px;height:108px;background:#e9efdf;border-radius:22px;color:#729160;font-size:40px;font-weight:500}
+.welcome-art i{display:block;margin-top:9px;font-size:10px;font-weight:400;font-style:normal;letter-spacing:1px;color:#839476}
+.welcome-art>b{margin:0 18px;font-size:23px;font-weight:400;color:#a9b69b}
+.welcome-wish{position:relative}.welcome-wish:after{content:'';position:absolute;left:22px;right:22px;bottom:13px;height:3px;border-radius:5px;background:#a8bc90}
+.welcome-content h3{font-size:23px;font-weight:600;line-height:1.55;letter-spacing:.5px;color:#49623f;margin:0 0 16px}
+.modal .welcome-content>p{font-size:12px;line-height:1.9;color:#7c8871;margin:0}
+.welcome-local{font-size:10px;color:#a0aa94;margin:23px 0 6px}
+.welcome-content .tour-skip{margin-top:8px}
+/* Keep the target name on one line; no specifications or repeated caption. */
+.anchor-switch{width:100%;max-width:340px;margin:0 auto}
+.anchor-switch button{width:32px;min-width:32px;height:40px;margin:0 5px;font-size:25px;flex-shrink:0}
+.anchor-switch #anchor-name{flex:1;min-width:0;max-width:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:18px;font-weight:600;letter-spacing:0;line-height:1.4}
+#anchor-caption[hidden]{display:none!important}
+.unlock-track{margin-top:16px}.unlock-meta{margin-top:6px}
+.coach-guide{position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;touch-action:none}
+.coach-guide[hidden]{display:none!important}
+.coach-mask{position:fixed;background:rgba(37,47,32,.62)}
+.coach-spot{position:fixed;border:2px solid #f3f6e9;border-radius:18px;background:transparent;box-shadow:0 0 0 4px rgba(207,224,181,.2)}
+.coach-card{position:fixed;width:296px;max-width:calc(100% - 32px);padding:21px 20px 17px;border-radius:20px;background:#f8f7ef;color:#435b39;box-shadow:0 14px 44px rgba(23,35,17,.15);touch-action:pan-y;overflow-y:auto}
+.coach-step{font-size:10px;color:#92a180;letter-spacing:1px;margin:0 0 9px}
+.coach-title{font-size:18px;line-height:1.5;font-weight:600;margin:0 0 10px}
+.coach-copy{font-size:12px;line-height:1.85;color:#7c8971;margin:0}
+.coach-actions{display:flex;align-items:center;justify-content:space-between;margin-top:19px}
+.coach-next{font-size:12px;border:0;border-radius:20px;background:#708b5d;color:#fff;padding:10px 20px}
+.coach-skip{font-size:11px;border:0;padding:9px 0;background:transparent;color:#a0aa94}
+.coach-actions button:focus{outline:2px solid #92aa7b;outline-offset:3px}
+@media(max-width:350px){.welcome-content h3{font-size:20px}.welcome-art{margin-bottom:21px}.anchor-switch #anchor-name{font-size:16px}}
+@media(max-height:650px){.welcome-art>span{height:80px}.welcome-art{margin:6px 0 15px}.welcome-content h3{font-size:20px;margin-bottom:10px}.welcome-local{margin-top:16px}}
+
+body.coach-open{overflow:hidden}body.coach-open>main{overflow:hidden}
+
 /* H5: no native mini-tool navigation bar to avoid. */
 main{padding-top:28px;padding-top:calc(28px + env(safe-area-inset-top, 0px));padding-bottom:calc(18px + env(safe-area-inset-bottom, 0px))}
 .overlay{padding-top:calc(20px + env(safe-area-inset-top, 0px));padding-bottom:calc(20px + env(safe-area-inset-bottom, 0px))}

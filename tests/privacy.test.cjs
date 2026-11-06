@@ -10,14 +10,21 @@ assert.equal(C.anchor(wishes,150,10000,'missing').id,'wish:a');
 assert.equal(C.anchor(wishes,150,10000,'wish:a').reference,null);
 assert.equal(C.anchorOptions(wishes).length,C.catalog.length+2);
 assert.equal(C.anchorOptions([{id:'x',bought:true}]).length,C.catalog.length);
-assert.equal(C.catalog.filter(x=>x.tier==='daily').length,30);
-assert.equal(C.catalog.filter(x=>x.tier==='monthly').length,15);
+assert.equal(C.catalog.filter(x=>x.tier==='daily').length,41);
+assert.equal(C.catalog.filter(x=>x.tier==='monthly').length,24);
 assert.equal(new Set(C.catalog.map(x=>x.id)).size,C.catalog.length);
-for(const product of C.catalog){assert(product.price>0);assert.equal(C.anchor([],product.price/2,10000,product.id).progress,.5);assert.equal(C.anchor([],product.price/2,10000,product.id).reference.url,product.url);assert(/^https:\/\/www\.smzdm\.com\/p\/\d+\/$/.test(product.url));}
+for(const product of C.catalog){assert(product.price>0);assert.equal(C.anchor([],product.price/2,10000,product.id).progress,.5);assert.equal(C.anchor([],product.price/2,10000,product.id).reference.url,product.url);assert(/^https:\/\/(?:www\.smzdm\.com\/p\/\d+\/|www\.apple\.com\.cn\/shop\/|store\.dji\.com\/cn\/product\/|www\.bang-olufsen\.com\/zh-cn\/cn\/)/.test(product.url));assert(product.name.length<=24);assert(!/ · |\dGB|\dTB/.test(product.name));}
 assert(C.anchor([],0,10000,null,'monthly').reference.tier==='monthly');
 assert(C.anchor([],0,10000,null,'daily',333).reference.tier==='daily');
 assert.equal(C.anchor(wishes,20,10000,null,'monthly').id,'wish:a');
 assert.equal(C.anchor([],20,10000,'zdm:removed').progress,C.anchor([],20,10000).progress);
 assert.equal(C.anchor([],300,10000,item.id,'daily').progress,C.anchor([],300,10000,item.id,'monthly').progress);
-assert.equal(C.catalog.length,45);
-console.log('198 catalog / selection / progress checks passed');
+assert.equal(C.catalog.length,65);
+const dailyHigh=C.anchor([],0,100000,null,'daily',100000/30).reference;
+assert(dailyHigh.price>2500&&dailyHigh.price<=100000/30);
+const monthlyHigh=C.anchor([],0,100000,null,'monthly').reference;
+assert(monthlyHigh.price>=60000&&monthlyHigh.price<=100000);
+assert.equal(C.anchor(wishes,20,100000,null,'monthly').id,'wish:a');
+assert.equal(C.catalog.filter(x=>x.source==='official').length,20);
+assert.equal(C.anchor([],100000,100000,monthlyHigh.id,'monthly').progress,1);
+console.log('catalog coverage, concise names, source links and 100k salary checks passed (65 products)');
